@@ -1,0 +1,71 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+const int MAX = 20;
+int  N[MAX][MAX],//mảng lưu chi phí đi lại giữa các thành phố
+     x[MAX],// mảng lưu hành trình tạm thời(chưa phải hành trình tối ưu)
+     bestSolution[MAX],//mảng lưu hành trình tối ưu
+     d[MAX],//mảng đánh dấu những nơi đã tới hoặc chưa tới
+     n,m,sum,best=100000;
+
+void input(void)
+{
+     cin>>n;
+     for(int y = 1 ; y <= n ; y++)
+          for(int x=1 ; x <= n ; x++)
+               cin>>N[x][y];
+     cin>>m;// vị trí xuất phát
+}
+
+void init(void)
+{
+     d[m] = 1;//vị trí xuất phát đã đi qua
+     x[1] = m;//hành trình xuất phát tại điểm đó 
+}
+
+void update(void)
+{
+     if(sum+N[m][x[n]] < best)//Tính cả chi phí đi về điểm xuất phát
+     {
+          best = sum+N[m][x[n]];
+          for(int i = 1 ; i <= n ; i++)
+               bestSolution[i] = x[i];//Lưu lại phương án tốt nhất từ phương án tạm thời
+     }
+}
+
+void Choose(int i)
+{
+     if(sum >= best)// điều kiện
+          return;
+     for(int j = 1 ; j <= n ; j++)
+     {
+          if(d[j] == 0)//nếu nơi đó chưa đi qua
+          {
+               x[i] = j;//lưu lại hành trình 
+               d[j] = 1;//đánh dấu nơi đó đã đi qua
+               sum += N[j][x[i-1]];
+               if(i == n)//khi đã đi qua mọi nơi
+                    update();
+               else
+                    Choose(i+1);
+               sum -= N[j][x[i-1]];
+               d[j] = 0;
+          }
+     }
+}
+
+void output(void)
+{
+     cout<<best<<"\n";
+     for(int i = 1 ; i <= n ; i++)
+          cout<<bestSolution[i]<<"->";
+     cout<<m;
+}
+
+int main()
+{
+     input();
+     init();
+     Choose(2);
+     output();
+}
