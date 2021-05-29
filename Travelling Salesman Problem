@@ -18,12 +18,6 @@ void input(void)
      cin>>m;// vị trí xuất phát
 }
 
-void init(void)
-{
-     d[m] = 1;//vị trí xuất phát đã đi qua
-     x[1] = m;//hành trình xuất phát tại điểm đó
-}
-
 void update(void)
 {
      if(sum+N[m][x[n]] < best)//Tính cả chi phí đi về điểm xuất phát
@@ -66,7 +60,8 @@ void output(void)
 int main()
 {
      input();
-     init();
+     d[m] = 1;//vị trí xuất phát đã đi qua
+     x[1] = m;//hành trình xuất phát tại điểm đó
      Choose(2);
      output();
 }
