@@ -1,0 +1,31 @@
+#include<bits/stdc++.h>
+using namespace std;
+int x[1000],    //mảng lưu hạng tử
+    t[1000],    //mảng lưu hiệu sau khi trừ
+    n;    // số nguyên
+void printResult(int i)   //in ra các hạng tử
+{
+     for(int a=1;a<=i;a++)
+          cout<<x[a]<<" ";
+     cout<<endl;
+}
+void Cal(int i,int j)
+{
+     while(j <= t[i-1]/2)
+     {
+          int sub = t[i-1]-j;
+          x[i] = j;
+          x[i+1] = sub;
+          t[i] = sub;
+          printResult(i+1);
+          Cal(i+1,j);
+          j++;
+     }
+}
+int main()
+{
+     cin>>n;
+     t[0] = n;    //cơ sở đệ quy
+     Cal(1,1);
+     return 0;
+}
