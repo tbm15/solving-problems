@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int N,M,K,T[50000],P[50000];
+long long Q[50000];
+
+void Input(void)
+{
+     cin>>M>>N>>K;
+     for(int i = 0; i != M ; i++)
+          cin>>T[i];
+     for(int i = 0 ; i != M ; i++)
+          cin>>P[i];
+}
+
+int Check(long long x)
+{
+     long long sum = 0;
+     
+     for(int i = 0 ; i != M ; i++)
+          Q[i] = 1 + (x-T[i])/P[i];   //Trong x giây mỗi cây thu được bao nhiêu quả
+          
+     sort(Q,Q+M);
+     
+     for(int i = M-1 ; i != M-N-1 ; i--)   
+          sum += Q[i];   
+        
+     if(sum >= K) return 1;   //nếu số hạt N cây nhiều quả nhất >= K
+     else         return 0;
+}
+
+void Exe(void)
+{
+     long long l = 1,r = 100000000000,mid;
+     while(l <= r)
+     {
+          mid = (l+r)/2;
+          if(Check(mid) == 1) 
+               r = mid-1;
+          else
+               l = mid+1;
+     }
+     cout<<mid;
+}
+
+int main()
+{
+     Input();
+     Exe();
+     return 0;
+}
